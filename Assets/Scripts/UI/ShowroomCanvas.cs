@@ -2,12 +2,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShowroomCanvas : MonoBehaviour
+public class ShowroomCanvas : ShowroomCanvasBase
 {
     private Camera cam;
     private Transform offsetTransform;
 
-    public ShowroomVehicle vehicleScript;
     public Vector3 offset = new Vector3(4f, 2f, 0f);
 
     [Header("UI Elements")]
@@ -43,17 +42,15 @@ public class ShowroomCanvas : MonoBehaviour
     [SerializeField]
     private Button buttonDoorTG;
 
-    public void Initialize(ShowroomVehicle vehicle)
+    public override void Initialize(ShowroomVehicle vehicle)
     {
-        vehicleScript = vehicle;
-
         offsetTransform = new GameObject("OffsetHelper").transform;
         cam = Camera.main;
 
-        SetupUILogic();
+        base.Initialize(vehicle);
     }
 
-    private void SetupUILogic()
+    protected override void SetupLogic()
     {
         sliderRed.minValue = 0f;
         sliderRed.maxValue = 1f;
@@ -94,6 +91,9 @@ public class ShowroomCanvas : MonoBehaviour
 
     private void Update()
     {
+        if (vehicleScript == null)
+            return;
+
         offsetTransform.position = cam.transform.position;
         offsetTransform.LookAt(vehicleScript.transform);
         transform.position = (Vector3.up * offset.y) + vehicleScript.transform.position + (offsetTransform.right * offset.x);

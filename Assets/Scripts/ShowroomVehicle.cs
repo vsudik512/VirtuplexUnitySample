@@ -14,7 +14,7 @@ public class ShowroomVehicle : MonoBehaviour
     [SerializeField]
     private VehicleComponentBase[] vehicleComponents;
 
-    private ShowroomCanvas canvas;
+    private ShowroomCanvasBase canvas;
 
     private void Start()
     {
